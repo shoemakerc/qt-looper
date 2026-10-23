@@ -1,0 +1,856 @@
+/*
+ * Looper styles. The base styles they build on (colors, type, header,
+ * footer, staff divider) come from the main site through site-base.css,
+ * which scripts/sync-site.mjs keeps up to date.
+ */
+
+.page-title em {
+  color: var(--accent);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- Buttons (the coffee calculator's) ---------- */
+
+.button {
+  font: inherit;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  padding: 0.7rem 1.1rem;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+
+.button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.button-quiet {
+  border-color: transparent;
+  color: var(--muted);
+}
+
+.button-small {
+  padding: 0.45rem 0.75rem;
+}
+
+.button-icon {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Record, Play and Stop wear their symbols. */
+
+.button-record::before,
+.button-play::before,
+.button-stop::before {
+  content: "";
+  display: inline-block;
+  width: 0.6em;
+  height: 0.6em;
+  margin-right: 0.6em;
+  vertical-align: -0.02em;
+  background: currentColor;
+}
+
+.button-record::before {
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.button-play::before {
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.button.is-on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.button-record.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.button-record.is-on::before {
+  background: var(--paper);
+  animation: blink 1s steps(2, jump-none) infinite;
+}
+
+.button.is-on:hover:not(:disabled) {
+  color: var(--paper);
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* ---------- The window ---------- */
+
+.looper {
+  margin-top: 1.5rem;
+}
+
+.window {
+  border: 1px solid var(--ink);
+}
+
+.window-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.85rem;
+  border-bottom: 1px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.window-lights {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.window-lights i {
+  width: 0.6rem;
+  height: 0.6rem;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+}
+
+.window-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  min-height: 3.25rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.window-status {
+  margin: 0;
+  min-height: 2.5rem;
+  padding: 0.65rem 1rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ---------- Tracks ---------- */
+
+.tracks {
+  padding: 0.25rem 1rem 0;
+}
+
+.tracks-head,
+.track {
+  display: grid;
+  grid-template-columns:
+    2rem 4.5rem minmax(7.5rem, 1fr) minmax(10.5rem, 1.5fr)
+    3.75rem 2.75rem minmax(8rem, 1.1fr);
+  gap: 0 1rem;
+  align-items: center;
+}
+
+.tracks-head {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.tracks-head span:nth-child(5),
+.tracks-head span:nth-child(6) {
+  text-align: center;
+}
+
+.track {
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.track:last-child {
+  border-bottom: 0;
+}
+
+.track-number {
+  font-size: 1.25rem;
+  font-variant-numeric: lining-nums tabular-nums;
+  line-height: 1;
+}
+
+.track.is-armed .track-number {
+  color: var(--accent);
+}
+
+.track.is-loading .track-number {
+  animation: blink 0.8s steps(2, jump-none) infinite;
+}
+
+.track.is-muted select,
+.track.is-muted .volume-value {
+  color: var(--muted);
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.cell-record,
+.cell-play {
+  justify-content: center;
+}
+
+/* The column headings label the cells on wide screens; on phones each cell labels itself. */
+.cell-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.track select {
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+  text-overflow: ellipsis;
+  background-color: transparent;
+  /* A small chevron, drawn in the theme's own color. */
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 8px) 55%,
+    calc(100% - 3px) 55%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  padding: 0.45rem 1.25rem 0.45rem 0;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 120ms ease;
+}
+
+.track select:hover:not(:disabled) {
+  border-bottom-color: var(--ink);
+}
+
+.track select:disabled {
+  color: var(--muted);
+  background-image: none;
+  cursor: default;
+}
+
+.track input[type="radio"],
+.track input[type="checkbox"] {
+  appearance: none;
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: 0;
+  border: 1px solid var(--ink);
+  background: transparent;
+  cursor: pointer;
+}
+
+.track input[type="radio"] {
+  border-radius: 50%;
+}
+
+.track input[type="radio"]:checked {
+  border-color: var(--accent);
+  background: radial-gradient(circle, var(--accent) 0 38%, transparent 42%);
+}
+
+.track.is-recording input[type="radio"] {
+  background: var(--accent);
+  animation: blink 1s steps(2, jump-none) infinite;
+}
+
+.track input[type="radio"]:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.track input[type="checkbox"]:checked {
+  background: var(--ink);
+  box-shadow: inset 0 0 0 3px var(--paper);
+}
+
+.track input[type="range"] {
+  flex: 1;
+  min-width: 0;
+  height: 1.75rem;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+.track input[type="range"]::-webkit-slider-runnable-track {
+  height: 1px;
+  background: var(--ink);
+}
+
+.track input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 0.55rem;
+  height: 1.125rem;
+  margin-top: -0.53rem;
+  background: var(--ink);
+  border: 0;
+  border-radius: 0;
+}
+
+.track input[type="range"]::-moz-range-track {
+  height: 1px;
+  background: var(--ink);
+}
+
+.track input[type="range"]::-moz-range-thumb {
+  width: 0.55rem;
+  height: 1.125rem;
+  background: var(--ink);
+  border: 0;
+  border-radius: 0;
+}
+
+.track input[type="range"]:hover::-webkit-slider-thumb {
+  background: var(--accent);
+}
+
+.track input[type="range"]:hover::-moz-range-thumb {
+  background: var(--accent);
+}
+
+.volume-value {
+  flex: none;
+  width: 1.75rem;
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Loop overview ---------- */
+
+.loop {
+  padding: 1.25rem 1rem 0.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.loop-lanes {
+  position: relative;
+  display: grid;
+  gap: 3px;
+}
+
+.lane {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  align-items: center;
+  height: 1.375rem;
+}
+
+.lane-number {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  color: var(--muted);
+}
+
+.lane.is-armed .lane-number {
+  color: var(--accent);
+}
+
+.lane-notes {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--highlight);
+}
+
+.lane-notes rect {
+  fill: var(--ink-soft);
+}
+
+.lane.is-armed .lane-notes rect {
+  fill: var(--accent);
+}
+
+.lane.is-muted .lane-notes rect {
+  fill: var(--rule);
+}
+
+.playhead {
+  position: absolute;
+  inset: -3px 0 -3px 1.5rem;
+  pointer-events: none;
+}
+
+.playhead::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  width: 2px;
+  background: var(--accent);
+}
+
+.loop-empty {
+  position: absolute;
+  inset: 0 0 0 1.5rem;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 0 1rem;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.loop-empty.is-live {
+  color: var(--accent);
+}
+
+/* ---------- Transport ---------- */
+
+.transport {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  padding: 1rem;
+}
+
+.transport-edit {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -0.75rem;
+}
+
+.transport-edit .button {
+  padding-inline: 0.75rem;
+}
+
+.transport-main {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.transport-main .button {
+  min-width: 6.5rem;
+}
+
+/* ---------- Keyboard ---------- */
+
+.keys {
+  margin-top: 2.5rem;
+}
+
+.keys-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.keys-head p {
+  margin: 0;
+}
+
+.keys-sound {
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+}
+
+.keys-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.75rem;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stepper .meta {
+  margin-right: 0.25rem;
+}
+
+.stepper-value {
+  min-width: 2.5rem;
+  text-align: center;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.piano,
+.pads {
+  position: relative;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* While the armed track's sound downloads, say so where you're about to play. */
+.piano.is-loading::after,
+.pads.is-loading::after {
+  content: attr(data-loading);
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  text-align: center;
+  background: color-mix(in srgb, var(--paper) 75%, transparent);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  pointer-events: none;
+}
+
+.piano {
+  --whites: 11;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--whites), 1fr);
+  height: 10rem;
+  border-right: 1px solid var(--ink);
+}
+
+.piano-key {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.25rem;
+  padding-bottom: 0.65rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 60ms ease;
+}
+
+.piano-key.white {
+  border: 1px solid var(--ink);
+  border-right: 0;
+  background: var(--paper);
+}
+
+.piano-key.white.is-down {
+  background: var(--highlight);
+  color: var(--accent);
+}
+
+.piano-key.black {
+  position: absolute;
+  top: 0;
+  left: calc(var(--after) * 100% / var(--whites));
+  z-index: 1;
+  width: calc(62% / var(--whites));
+  height: 60%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  color: var(--paper);
+  opacity: 1;
+}
+
+.piano-key.black .key-letter {
+  opacity: 0.7;
+}
+
+.piano-key.black.is-down {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.key-name {
+  color: var(--ink-soft);
+}
+
+.pads {
+  display: grid;
+  grid-template-columns: repeat(22, 1fr);
+  grid-auto-rows: 4.75rem;
+  gap: 6px;
+}
+
+.pad {
+  grid-row: var(--row);
+  grid-column: var(--column) / span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  padding: 0.45rem 0.4rem;
+  border: 1px solid var(--ink);
+  font-size: 0.8125rem;
+  line-height: 1.15;
+  cursor: pointer;
+  transition: background 60ms ease;
+}
+
+.pad-name {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.pad .key-letter {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+
+.pad.is-down {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--paper);
+}
+
+.pad.is-down .key-letter {
+  color: var(--paper);
+}
+
+/* No letters to press on a touch screen. */
+@media (hover: none) and (pointer: coarse) {
+  .key-letter {
+    display: none;
+  }
+}
+
+/* ---------- Notes ---------- */
+
+.about {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1.15fr;
+  gap: 2rem 2.5rem;
+}
+
+.about-title {
+  font-size: 1.375rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.75rem;
+}
+
+.about p,
+.about ol {
+  margin: 0 0 1rem;
+}
+
+.about ol {
+  padding-left: 1.2rem;
+}
+
+.about li {
+  margin-bottom: 0.5rem;
+}
+
+.about b {
+  font-family: var(--mono);
+  font-size: 0.75em;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.about-small {
+  font-size: 0.875em;
+  color: var(--muted);
+}
+
+.shortcuts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1rem;
+  align-items: baseline;
+  margin: 0 0 1rem;
+}
+
+.shortcuts dt {
+  white-space: nowrap;
+}
+
+.shortcuts dd {
+  margin: 0;
+}
+
+kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0.1em 0.35em;
+  border: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 54rem) {
+  .about {
+    grid-template-columns: 1fr 1fr;
+  }
+  .about section:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 50rem) {
+  .tracks-head {
+    display: none;
+  }
+  .track {
+    grid-template-columns: 1.5rem auto auto 1fr;
+    grid-template-areas:
+      "number instrument instrument instrument"
+      "number category category channel"
+      "number record play volume";
+    gap: 0.35rem 1.25rem;
+    padding: 0.75rem 0;
+  }
+  .track-number {
+    grid-area: number;
+    align-self: start;
+    padding-top: 1.35rem;
+  }
+  .cell-instrument {
+    grid-area: instrument;
+  }
+  .cell-category {
+    grid-area: category;
+  }
+  .cell-channel {
+    grid-area: channel;
+  }
+  .cell-record {
+    grid-area: record;
+  }
+  .cell-play {
+    grid-area: play;
+  }
+  .cell-volume {
+    grid-area: volume;
+  }
+  .cell-instrument,
+  .cell-category,
+  .cell-channel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .cell-record,
+  .cell-play {
+    justify-content: flex-start;
+  }
+  .cell-label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .cell-volume .cell-label {
+    display: none;
+  }
+  .transport-main {
+    width: 100%;
+  }
+  .transport-main .button {
+    flex: 1;
+    min-width: 0;
+    padding-inline: 0.5rem;
+  }
+}
+
+@media (max-width: 40rem) {
+  .about {
+    grid-template-columns: 1fr;
+  }
+  .pads {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 4.25rem;
+    gap: 4px;
+  }
+  .pad {
+    grid-row: auto;
+    grid-column: auto;
+    order: var(--order);
+    padding-inline: 0.3rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 34rem) {
+  .piano {
+    --whites: 8;
+    height: 8.5rem;
+  }
+  .piano [data-index="8"],
+  .piano [data-index="9"],
+  .piano [data-index="10"],
+  .piano [data-after="8"],
+  .piano [data-after="9"] {
+    display: none;
+  }
+}

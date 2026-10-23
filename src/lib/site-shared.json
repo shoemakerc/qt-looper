@@ -1,0 +1,52 @@
+{
+  "name": "Chris Shoemaker",
+  "url": "https://shoemakerc.github.io",
+  "nav": [
+    {
+      "label": "Writing",
+      "path": "/music/"
+    },
+    {
+      "label": "Listening",
+      "path": "/#listening"
+    },
+    {
+      "label": "Reading",
+      "path": "/reading/"
+    },
+    {
+      "label": "Projects",
+      "path": "/projects/"
+    },
+    {
+      "label": "About",
+      "path": "/about/"
+    }
+  ],
+  "links": [
+    {
+      "label": "Email",
+      "href": "mailto:chriskimshoemaker@gmail.com"
+    },
+    {
+      "label": "GitHub",
+      "href": "https://github.com/shoemakerc"
+    },
+    {
+      "label": "Spotify",
+      "href": "https://open.spotify.com/user/someguy_886"
+    },
+    {
+      "label": "RateYourMusic",
+      "href": "https://rateyourmusic.com/~shoeman27"
+    },
+    {
+      "label": "Last.fm",
+      "href": "https://www.last.fm/user/shoeman27"
+    },
+    {
+      "label": "Goodreads",
+      "href": "https://www.goodreads.com/user/show/166556608"
+    }
+  ]
+}
