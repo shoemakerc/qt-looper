@@ -591,8 +591,8 @@
 }
 
 .piano-key.white.is-down {
-  background: var(--highlight);
-  color: var(--accent);
+  background: var(--accent);
+  color: var(--paper);
 }
 
 .piano-key.black {
@@ -620,6 +620,26 @@
 
 .key-name {
   color: var(--ink-soft);
+}
+
+.piano-key.is-down .key-name {
+  color: inherit;
+}
+
+/*
+ * In dark mode the page's ink turns light, which would turn the keyboard
+ * inside out: light black keys on dark white ones. Keep the black keys the
+ * darker of the two.
+ */
+@media (prefers-color-scheme: dark) {
+  .piano-key.white:not(.is-down) {
+    background: var(--rule);
+  }
+  .piano-key.black:not(.is-down) {
+    background: var(--paper);
+    border-color: var(--ink-soft);
+    color: var(--ink);
+  }
 }
 
 .pads {
